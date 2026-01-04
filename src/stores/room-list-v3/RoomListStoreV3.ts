@@ -240,7 +240,24 @@ export class RoomListStoreV3Class extends AsyncStoreWithClient<EmptyObject> {
                     (oldMembership === EffectiveMembership.Invite || oldMembership === EffectiveMembership.Join) &&
                     newMembership === EffectiveMembership.Leave
                 ) {
-                    this.roomSkipList.removeRoom(payload.room);
+                    
+                    // ändeurngen doblinger auto logout
+                    
+                    // this.roomSkipList.removeRoom(payload.room);
+                    const roomId = payload.room.roomId; // alt - gehörte schon vorher her
+                    // this.matrixClient?.store.removeRoom(payload.room.roomId);
+
+                    // Raum bewusst aus UI fernhalten
+                    this.roomSkipList.addRoom(payload.room);
+
+                    // falls gerade offen → View schließen
+                    if (this.activeRoomId === roomId) {
+                        defaultDispatcher.dispatch({
+                            action: Action.ViewRoom,
+                            room_id: null,
+                        });
+    }
+
                     this.emit(LISTS_UPDATE_EVENT);
                     return;
                 }
@@ -259,7 +276,8 @@ export class RoomListStoreV3Class extends AsyncStoreWithClient<EmptyObject> {
                         this.roomSkipList.removeRoom(predecessor);
                     }
                 }
-                // AUTO-ACCEPT INVITE: leave -> invite
+
+                // doblinger AUTO-ACCEPT INVITE: leave -> invite
                 if (
                     oldMembership === EffectiveMembership.Leave &&
                     newMembership === EffectiveMembership.Invite
