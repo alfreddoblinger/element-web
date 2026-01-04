@@ -259,13 +259,7 @@ export class RoomListStoreV3Class extends AsyncStoreWithClient<EmptyObject> {
                         this.roomSkipList.removeRoom(predecessor);
                     }
                 }
-                // AUTO-ACCEPT INVITE: leave -> invite
-                if (
-                    oldMembership === EffectiveMembership.Leave &&
-                    newMembership === EffectiveMembership.Invite
-                ) {
-                    this.matrixClient?.joinRoom(payload.room.roomId).catch(() => {});
-                }
+
                 this.addRoomAndEmit(payload.room, oldMembership === EffectiveMembership.Leave);
                 break;
             }
