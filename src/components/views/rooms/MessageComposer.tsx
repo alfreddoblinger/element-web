@@ -55,6 +55,9 @@ import { UIFeature } from "../../../settings/UIFeature";
 import { formatTimeLeft } from "../../../DateUtils";
 import RoomReplacedSvg from "../../../../res/img/room_replaced.svg";
 import { HistoryVisibleBanner } from "../composer/HistoryVisibleBanner";
+// doblinger - kiconnect
+import { KiconnectRoomActions } from "../../../kiconnect/components/RoomActions";
+
 
 // The prefix used when persisting editor drafts to localstorage.
 export const WYSIWYG_EDITOR_STATE_STORAGE_PREFIX = "mx_wysiwyg_state_";
@@ -723,6 +726,8 @@ export class MessageComposer extends React.Component<IProps, IState> {
                         </div>
                     </div>
                 </div>
+                {/* doblinger KIconnect */}
+                <KiconnectRoomActions room={this.props.room} />
             </div>
         );
     }
