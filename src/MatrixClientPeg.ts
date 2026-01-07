@@ -464,10 +464,12 @@ class MatrixClientPegClass implements IMatrixClientPeg {
         this.matrixClient = createMatrixClient(opts);
         this.matrixClient.setGuest(Boolean(creds.guest));
 
+        
         const notifTimelineSet = new EventTimelineSet(undefined, {
             timelineSupport: true,
             pendingEvents: false,
         });
+
         // XXX: what is our initial pagination token?! it somehow needs to be synchronised with /sync.
         notifTimelineSet.getLiveTimeline().setPaginationToken("", EventTimeline.BACKWARDS);
         this.matrixClient.setNotifTimelineSet(notifTimelineSet);

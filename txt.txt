@@ -1,1 +1,9 @@
+cleint login
+
 http://192.168.178.137:8080/
+
+
+start sam server mit
+
+export NODE_OPTIONS="--max-old-space-size=8192"
+yarn start
