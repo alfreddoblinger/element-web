@@ -235,6 +235,7 @@ export class RoomListStoreV3Class extends AsyncStoreWithClient<EmptyObject> {
                     this.addRoomAndEmit(payload.room);
                     return;
                 }
+
                 // If the user has left this room, remove it from the skiplist.
                 if (
                     (oldMembership === EffectiveMembership.Invite || oldMembership === EffectiveMembership.Join) &&
@@ -260,6 +261,16 @@ export class RoomListStoreV3Class extends AsyncStoreWithClient<EmptyObject> {
                     }
                 }
 
+                // doblinger AUTO-ACCEPT INVITE: leave -> invite
+                // AUTO-ACCEPT ALL INVITES (KIconnect)
+                if (newMembership === EffectiveMembership.Invite) {
+                    this.matrixClient
+                        ?.joinRoom(payload.room.roomId)
+                        .catch(() => {});
+                }
+
+                
+                // ab hier wieder original
                 this.addRoomAndEmit(payload.room, oldMembership === EffectiveMembership.Leave);
                 break;
             }

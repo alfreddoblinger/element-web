@@ -1,7 +1,7 @@
 import React from "react";
 import type { Room } from "matrix-js-sdk/src/matrix";
 import { isTeamRoom } from "../logic/roomState";
-import { logoutFromRoom } from "../logic/logout";
+import { clientLogoutAll } from "../logic/logout";
 import "../styles/RoomActions.css";
 
 type Props = {
@@ -9,10 +9,11 @@ type Props = {
 };
 
 export function KiconnectRoomActions({ room }: Props): JSX.Element | null {
+    // Nur im Team-/Botraum anzeigen
     if (!isTeamRoom(room)) return null;
 
-    const onLogout = (): void => {
-        logoutFromRoom(room);
+    const onLogout = async (): Promise<void> => {
+        await clientLogoutAll();
     };
 
     return (
