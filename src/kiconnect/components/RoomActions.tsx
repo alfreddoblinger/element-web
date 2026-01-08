@@ -10,21 +10,34 @@ type Props = {
 };
 
 export function KiconnectRoomActions({ room }: Props): JSX.Element | null {
-    if (!isTeamRoom(room)) return null;
+    // TEAMRAUM → Login / Logout (wie vorher)
+    if (isTeamRoom(room)) {
+        const onLogout = async (): Promise<void> => {
+            await clientLogoutAll();
+        };
 
-    const onLogout = async (): Promise<void> => {
-        await clientLogoutAll();
-    };
+        const onLogin = (): void => {
+            openKiconnectLoginDialog(room);
+        };
 
-    const onLogin = (): void => {
-        openKiconnectLoginDialog(room);
+        return (
+            <div className="kiconnect-room-actions">
+                <div className="kiconnect-room-actions-divider" />
+                <button onClick={onLogin}>Login</button>
+                <button onClick={onLogout}>Logout</button>
+            </div>
+        );
+    }
+
+    // NICHT-TEAMRAUM → Erledigt
+    const onDone = (): void => {
+        // noch leer – kommt im nächsten Schritt
     };
 
     return (
         <div className="kiconnect-room-actions">
             <div className="kiconnect-room-actions-divider" />
-            <button onClick={onLogin}>Login</button>
-            <button onClick={onLogout}>Logout</button>
+            <button onClick={onDone}>Erledigt</button>
         </div>
     );
 }
